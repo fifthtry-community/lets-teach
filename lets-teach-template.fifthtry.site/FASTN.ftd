@@ -11,7 +11,7 @@ provided-via: lets-teach-template.fifthtry.site/lets-teach
 -- fastn.auto-import: design-system.fifthtry.site as ds
 
 -- fastn.app: Update App
-mount-point: /updates/
+mount-point: /teach/
 package: lets-teach.fifthtry.site
 
 -- fastn.app: Auth App
