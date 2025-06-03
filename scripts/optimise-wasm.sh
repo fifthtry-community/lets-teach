@@ -135,4 +135,4 @@ function wasm_opt() {
 
 ensure_wasm_opt
 
-wasm_opt lets-XXX.fifthtry.site/backend.wasm
+wasm_opt lets-teach.fifthtry.site/backend.wasm

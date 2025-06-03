@@ -1,0 +1,27 @@
+-- import: lets-teach.fifthtry.site/storybook/self
+
+-- lets-teach.feed-page:
+updates-url: /storybook/self/
+items: $items
+
+-- lets-teach.feed-item list items:
+
+-- lets-teach.feed-item: $self.updates.0
+from: $rg
+
+-- lets-teach.feed-item: $self.updates.1
+from: $me
+
+-- lets-teach.feed-item: $self.updates.2
+from: $rg
+
+-- end: items
+
+-- lets-teach.contact rg: Rahul Gupta
+url: /storybook/rg/
+domain: rahulg.com
+
+
+-- lets-teach.contact me: Amit Upadhyay
+url: /storybook/self/
+domain: amitu.com

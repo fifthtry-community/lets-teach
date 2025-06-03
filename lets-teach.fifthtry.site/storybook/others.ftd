@@ -1,6 +1,6 @@
--- import: lets-XXX.fifthtry.site/storybook/self
+-- import: lets-teach.fifthtry.site/storybook/self
 
--- lets-XXX.self-page:
+-- lets-teach.self-page:
 viewer-is-owner: false
 updates-url: /storybook/others/
 updates: $self.updates
