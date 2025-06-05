@@ -1,1 +1,67 @@
 -- ftd.text: hello teach yo
+
+
+-- record entry:
+caption title:
+string url:
+;; if this is set, this is an actual concept page, else it just a regular page
+optional string concept:
+
+
+
+-- component show-entry:
+caption lets-teach.entry thing:
+
+-- ftd.text: $show-entry.thing.title
+link: $show-entry.thing.url
+
+-- end: show-entry
+
+
+
+
+
+
+-- component show-toc:
+caption entry list toc:
+
+-- ftd.column:
+padding.px: 20
+spacing.fixed.px: 10
+
+    -- lets-teach.show-entry: $thing
+    for: $thing in $show-toc.toc
+
+-- end: ftd.column
+
+-- end: show-toc
+
+
+
+-- component page:
+caption title:
+entry list toc:
+children content:
+
+
+-- ds.page:
+theme-switcher: true
+align-content: top-left
+
+-- ds.heading-large: $page.title
+
+-- ds.row:
+
+-- lets-teach.show-toc: $page.toc
+
+-- ds.column:
+align-content: left
+content: $page.content
+
+-- end: ds.column
+
+-- end: ds.row
+
+-- end: ds.page
+
+-- end: page

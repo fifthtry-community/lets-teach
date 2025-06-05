@@ -1,0 +1,29 @@
+-- import: lets-teach.fifthtry.site as lt
+
+-- import: lets-teach.fifthtry.site
+export: *
+
+-- import: lets-teach-template.fifthtry.site/meta
+
+
+-- component page:
+body body:
+children content:
+caption title:
+lt.entry list toc: $meta.toc
+
+-- lt.page: $meta.title
+toc: $page.toc
+
+-- ds.heading-large: $page.title
+
+$page.body
+
+-- ds.column:
+align-content: top-left
+content: $page.content
+inset: $ds.spaces.inset-square.zero
+
+-- end: lt.page
+
+-- end: page

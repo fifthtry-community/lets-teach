@@ -1,8 +1,7 @@
--- ds.site-page: My site
+-- lets-teach.page: Intro
 
--- ds.heading-large: My Site
+this is my content
 
--- ds.heading-medium: My Updates
-link: $ftd.app-url(path=/, app=lets-teach)
+-- ds.copy-regular: This is a sample page for the lets-teach template.
 
--- end: ds.site-page
+-- end: lets-teach.page

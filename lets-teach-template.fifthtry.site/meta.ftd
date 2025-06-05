@@ -1,0 +1,23 @@
+-- string title: `fastn` Made Easy - For the Curious & the Creative
+
+
+
+
+-- lets-teach.entry list toc:
+
+-- lets-teach.entry: Introduction
+url: /
+
+-- lets-teach.entry: Why Was `fastn` Created?
+url: /why-fastn/
+
+-- lets-teach.entry: FifthTry Offering
+url: /why-fifthtry/
+
+-- lets-teach.entry: Install `fastn` on Linux / Mac
+url: /install-fastn-linux-mac/
+
+-- lets-teach.entry: Install `fastn` on Windows
+url: /install-fastn-windows/
+
+-- end: toc
