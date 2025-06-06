@@ -1,27 +1,26 @@
 // visit /backend/hello-world/ to see the result
 #[ft_sdk::processor]
 pub fn populate_toc(
+    ft_sdk::Query(toc_input): ft_sdk::Query<"toc">,
 ) -> ft_sdk::processor::Result {
-    // lets-teach.entry list
-    ft_sdk::processor::json(vec![Entry {
-        title: "Lets Teach".to_string(),
+    let mut toc = serde_json::from_str::<Vec<Entry>>(&toc_input)?;
+
+    toc.push(Entry {
+        title: "Got data from backend".to_string(),
         url: "https://lets-teach.fifthtry.site/".to_string(),
         concept: Some("lets-teach".to_string()),
-        status: Some(Status::New),
-    }, Entry {
-        title: "Lets Teach - Concepts".to_string(),
-        url: "https://lets-teach.fifthtry.site/concepts/".to_string(),
-        concept: Some("lets-teach-concepts".to_string()),
-        status: Some(Status::Seen),
-    }, Entry {
-        title: "Lets Teach - Concepts - Statuses".to_string(),
-        url: "https://lets-teach.fifthtry.site/concepts/statuses/".to_string(),
-        concept: Some("lets-teach-concepts-statuses".to_string()),
-        status: Some(Status::Done),
-    }])
+        status: Some(Status::New) });
+    // lets-teach.entry list
+
+    ft_sdk::processor::json(toc)
 }
 
 
+// #[derive(serde::Deserialize, Debug)]
+// struct PopulateTocInput {
+//     toc: Vec<Entry>
+// }
+//
 // -- record entry:
 // caption title-main:
 // string url:

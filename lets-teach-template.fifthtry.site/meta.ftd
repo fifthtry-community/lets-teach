@@ -34,3 +34,4 @@ url: $ftd.app-url(path = /backend/populate-toc/, app = lets-teach)
 -- lets-teach.entry list toc:
 $processor$: pr.http
 url: /teach/backend/populate-toc/
+toc: $toc-uninitialized
