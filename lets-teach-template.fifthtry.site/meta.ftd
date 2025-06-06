@@ -1,9 +1,11 @@
+-- import: fastn/processors as pr
+
 -- string title: `fastn` Made Easy - For the Curious & the Creative
 
 
 
 
--- lets-teach.entry list toc:
+-- lets-teach.entry list toc-uninitialized:
 
 -- lets-teach.entry: Introduction
 url: /
@@ -20,4 +22,15 @@ url: /install-fastn-linux-mac/
 -- lets-teach.entry: Install `fastn` on Windows
 url: /install-fastn-windows/
 
--- end: toc
+-- end: toc-uninitialized
+
+
+
+/-- lets-teach.entry list toc:
+$processor$: pr.http
+url: $ftd.app-url(path = /backend/populate-toc/, app = lets-teach)
+
+
+-- lets-teach.entry list toc:
+$processor$: pr.http
+url: /teach/backend/populate-toc/

@@ -6,6 +6,8 @@ caption title:
 string url:
 ;; if this is set, this is an actual concept page, else it just a regular page
 optional string concept:
+;; can be NULL, new, seen, done.
+optional string status:
 
 
 
