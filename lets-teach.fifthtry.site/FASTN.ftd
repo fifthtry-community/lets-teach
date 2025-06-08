@@ -32,6 +32,8 @@ create table if not exists lets_teach_user_concept (
 
     FOREIGN KEY (user_id) REFERENCES fastn_user(id)
 );
+CREATE INDEX idx_lets_teach_user_concept_concept_url ON lets_teach_user_concept(concept_url);
+CREATE INDEX idx_lets_teach_user_concept_status ON lets_teach_user_concept(status);
 
 
 create table if not exists lets_teach_user_concept_event (
