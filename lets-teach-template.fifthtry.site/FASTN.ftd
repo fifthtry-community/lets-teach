@@ -13,13 +13,13 @@ provided-via: lets-teach-template.fifthtry.site/lets-teach
 -- fastn.auto-import: lets-teach-template.fifthtry.site/lets-teach
 -- fastn.auto-import: lets-teach-template.fifthtry.site/ds
 
--- fastn.app: Update App
-mount-point: /teach/
-package: lets-teach.fifthtry.site
-
 -- fastn.app: Auth App
 mount-point: /-/auth/
 package: lets-auth.fifthtry.site
+
+-- fastn.app: Lets Teach App
+mount-point: /teach/
+package: lets-teach.fifthtry.site
 
 
 -- fastn.url-mappings:
