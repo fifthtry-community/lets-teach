@@ -10,6 +10,9 @@ crate-type = ["cdylib"]
 
 
 [dependencies]
-serde_json.workspace = true
+chrono.workspace = true
+diesel.workspace = true
 ft-sdk.workspace = true
+http.workspace = true
 serde.workspace = true
+serde_json.workspace = true

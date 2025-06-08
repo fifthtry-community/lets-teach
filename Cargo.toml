@@ -15,6 +15,9 @@ edition = "2024"
 
 [workspace.dependencies]
 # ft-sdk = { version = "0.6.3", features = ["field-extractors"] }
+chrono = { version = "0.4", features = ["serde"], default-features = false }
+diesel = { version = "2", default-features = false, features = ["chrono"] }
 ft-sdk = { path = "../ft-sdk/ft-sdk", features = ["field-extractors"] }
-serde_json = "1"
+http = "1"
 serde = { version = "1", features = ["derive"] }
+serde_json = "1"
