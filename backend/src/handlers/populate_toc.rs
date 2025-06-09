@@ -8,9 +8,9 @@ pub fn populate_toc(
     let user_id = match maybe_me.ud {
         Some(ud) => ud.id,
         None => {
-            // ft_sdk::println!("No user data found, returning toc without status");
-            // return ft_sdk::processor::json(toc);
-            1
+            ft_sdk::println!("No user data found, returning toc without status");
+            // TODO: current_page_concept_url is wrong
+            return ft_sdk::processor::json(PageData { toc, current_page_concept_url: None });
         }
     };
 
@@ -31,7 +31,6 @@ fn fix_is_current_page(
     toc: &mut [Entry],
 ) {
     ft_sdk::println!("Fixing current page status for URL: {current_url}");
-    let current_url = current_url.replace('"', "");
     for entry in toc {
         ft_sdk::println!("Checking entry: {}, {current_url} {}", entry.url, entry.url == current_url);
         entry.is_current_page = entry.url == current_url;
