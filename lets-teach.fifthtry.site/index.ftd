@@ -7,7 +7,7 @@
 
 -- record page-data:
 lets-teach.entry list toc:
-boolean current-page-is-a-concept-page:
+optional string current-page-concept-url:
 
 
 -- record entry:
@@ -91,7 +91,8 @@ align-content: left
     -- end: ds.column
 
     -- self-assessment-form:
-    if: { page.data.current-page-is-a-concept-page }
+    if: { page.data.current-page-concept-url != NULL }
+    concept-url: $page.data.current-page-concept-url
 
 -- end: ds.column
 
@@ -103,7 +104,51 @@ align-content: left
 
 
 -- component self-assessment-form:
+string concept-url:
 
--- ds.copy-regular: self assessment form
+-- ds.column:
+align-content: top-left
+
+-- ds.heading-small: self assessment form
+
+Use the following buttons to update the status of this concept page.
+
+-- ds.row:
+align-content: top-left
+
+-- ds.primary-button: Mark as Done
+$on-click$: $ftd.set-value($a=$global-concept-url, value=$self-assessment-form.concept-url)
+$on-click$: $update-concept-status(concept_url=$concept-url, status=$done)
+
+-- ds.secondary-button: Mark as Not Done
+$on-click$: $ftd.set-value($a=$global-concept-url, value=$self-assessment-form.concept-url)
+$on-click$: $update-concept-status(concept_url=$concept-url, status=$seen)
+
+-- end: ds.row
+
+-- end: ds.column
 
 -- end: self-assessment-form
+
+
+
+-- string $global-concept-url: concept-url
+
+-- ftd.string-field concept-url: concept-url
+value: $global-concept-url
+
+-- ftd.string-field done: status
+value: done
+
+-- ftd.string-field seen: status
+value: seen
+
+
+
+
+-- void update-concept-status(concept_url, status):
+ftd.string-field concept_url:
+ftd.string-field status:
+string action_url: $ftd.app-url(path=/backend/update-concept-status/, app=lets-teach)
+
+ftd.submit_form(action_url, concept_url, status)

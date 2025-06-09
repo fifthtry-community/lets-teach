@@ -18,10 +18,13 @@ pub fn populate_toc(
     fix_status(user_id, &mut maybe_me.conn, &mut toc)?;
     fix_is_current_page(current_url, &mut toc);
 
+    let current_page_concept_url = toc.iter().find(|e| e.is_current_page).and_then(|e| e.concept.clone());
+
     ft_sdk::println!("current user: {user_id}, data: {toc:?}");
 
-    ft_sdk::processor::json(PageData { toc, current_page_is_a_concept_page: true })
+    ft_sdk::processor::json(PageData { toc, current_page_concept_url })
 }
+
 
 fn fix_is_current_page(
     current_url: String,
@@ -68,7 +71,7 @@ struct Entry {
 #[serde(rename_all = "kebab-case")]
 struct PageData {
     toc: Vec<Entry>,
-    current_page_is_a_concept_page: bool,
+    current_page_concept_url: Option<String>,
 }
 
 fn fix_status(
