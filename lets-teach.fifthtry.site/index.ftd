@@ -1,4 +1,13 @@
+-- import: svg-icons.fifthtry.site/phosphor as ph
+-- import: fastn/processors as pr
+
 -- ftd.text: hello teach yo
+
+
+
+-- record page-data:
+lets-teach.entry list toc:
+boolean current-page-is-a-concept-page:
 
 
 -- record entry:
@@ -8,14 +17,31 @@ string url:
 optional string concept:
 ;; can be NULL, new, seen, done.
 optional string status:
+boolean is-current-page: true
 
 
 
 -- component show-entry:
 caption lets-teach.entry thing:
 
--- ftd.text: $show-entry.thing.title
-link: $show-entry.thing.url
+-- ftd.row:
+spacing.fixed.px: 10
+
+    -- ftd.text: $show-entry.thing.title
+    link: $show-entry.thing.url
+    width: hug-content
+    style if { show-entry.thing.is-current-page }: underline
+
+    -- ph.fill: circle
+    if: { show-entry.thing.status == "seen" }
+    size: 14
+
+    -- ph.fill: check-circle
+    if: { show-entry.thing.status == "done" }
+    size: 14
+    color: green
+
+-- end: ftd.row
 
 -- end: show-entry
 
@@ -39,10 +65,9 @@ spacing.fixed.px: 10
 -- end: show-toc
 
 
-
 -- component page:
 caption title:
-entry list toc:
+page-data data:
 children content:
 
 
@@ -54,11 +79,19 @@ align-content: top-left
 
 -- ds.row:
 
--- lets-teach.show-toc: $page.toc
+-- lets-teach.show-toc: $page.data.toc
 
 -- ds.column:
 align-content: left
-content: $page.content
+
+    -- ds.column:
+    align-content: left
+    content: $page.content
+
+    -- end: ds.column
+
+    -- self-assessment-form:
+    if: { page.data.current-page-is-a-concept-page }
 
 -- end: ds.column
 
@@ -67,3 +100,10 @@ content: $page.content
 -- end: ds.page
 
 -- end: page
+
+
+-- component self-assessment-form:
+
+-- ds.copy-regular: self assessment form
+
+-- end: self-assessment-form

@@ -9,18 +9,23 @@
 
 -- lets-teach.entry: Introduction
 url: /
+concept: /
 
 -- lets-teach.entry: Why Was `fastn` Created?
 url: /why-fastn/
+concept: /why-fastn/
 
 -- lets-teach.entry: FifthTry Offering
 url: /why-fifthtry/
+concept: /why-fifthtry/
 
 -- lets-teach.entry: Install `fastn` on Linux / Mac
 url: /install-fastn-linux-mac/
+concept: /install-fastn-linux-mac/
 
 -- lets-teach.entry: Install `fastn` on Windows
 url: /install-fastn-windows/
+concept: /install-fastn-windows/
 
 -- end: toc-uninitialized
 
@@ -31,8 +36,13 @@ $processor$: pr.http
 url: $ftd.app-url(path = /backend/populate-toc/, app = lets-teach)
 
 
--- lets-teach.entry list toc:
+-- string url:
+$processor$: pr.current-url
+
+
+-- lets-teach.page-data page-data:
 $processor$: pr.http
 method: post
 url: /teach/backend/populate-toc/
 toc: $toc-uninitialized
+current-url: $url

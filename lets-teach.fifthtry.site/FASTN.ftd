@@ -9,6 +9,7 @@ system-is-confidential: false
 
 ;; this is a system: alias must be ds
 -- fastn.auto-import: design-system.fifthtry.site as ds
+-- fastn.dependency: svg-icons.fifthtry.site
 
 ;; this is a system: alias must be lets-auth
 -- fastn.auto-import: lets-auth.fifthtry.site as lets-auth

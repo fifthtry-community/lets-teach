@@ -3,17 +3,36 @@
 pub fn populate_toc(
     mut maybe_me: backend::MaybeMe,
     ft_sdk::Required(mut toc): ft_sdk::Required<"toc", Vec<Entry>>,
+    ft_sdk::Required(current_url): ft_sdk::Required<"current-url">,
 ) -> ft_sdk::processor::Result {
-    let ud = match maybe_me.ud {
+    let user_id = match maybe_me.ud {
         Some(ud) => ud.id,
         None => {
-            ft_sdk::println!("No user data found, returning toc without status");
-            return ft_sdk::processor::json(toc);
+            // ft_sdk::println!("No user data found, returning toc without status");
+            // return ft_sdk::processor::json(toc);
+            1
         }
     };
 
-    fix_status(ud, &mut maybe_me.conn, &mut toc)?;
-    ft_sdk::processor::json(toc)
+    ft_sdk::println!("current user: {user_id}, data: {toc:?}, {current_url}");
+    fix_status(user_id, &mut maybe_me.conn, &mut toc)?;
+    fix_is_current_page(current_url, &mut toc);
+
+    ft_sdk::println!("current user: {user_id}, data: {toc:?}");
+
+    ft_sdk::processor::json(PageData { toc, current_page_is_a_concept_page: true })
+}
+
+fn fix_is_current_page(
+    current_url: String,
+    toc: &mut [Entry],
+) {
+    ft_sdk::println!("Fixing current page status for URL: {current_url}");
+    let current_url = current_url.replace('"', "");
+    for entry in toc {
+        ft_sdk::println!("Checking entry: {}, {current_url} {}", entry.url, entry.url == current_url);
+        entry.is_current_page = entry.url == current_url;
+    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
@@ -42,6 +61,14 @@ struct Entry {
     url: String,
     concept: Option<String>,
     status: Option<Status>,
+    is_current_page: bool,
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[serde(rename_all = "kebab-case")]
+struct PageData {
+    toc: Vec<Entry>,
+    current_page_is_a_concept_page: bool,
 }
 
 fn fix_status(
