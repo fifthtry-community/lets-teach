@@ -5,34 +5,38 @@ pub fn populate_toc(
     ft_sdk::Required(mut toc): ft_sdk::Required<"toc", Vec<Entry>>,
     ft_sdk::Required(current_url): ft_sdk::Required<"current-url">,
 ) -> ft_sdk::processor::Result {
+    fix_is_current_page(current_url, &mut toc);
+    let current_page_concept_url = toc
+        .iter()
+        .find(|e| e.is_current_page)
+        .and_then(|e| e.concept.clone());
+
     let user_id = match maybe_me.ud {
         Some(ud) => ud.id,
         None => {
             ft_sdk::println!("No user data found, returning toc without status");
-            // TODO: current_page_concept_url is wrong
-            return ft_sdk::processor::json(PageData { toc, current_page_concept_url: None });
+            return ft_sdk::processor::json(PageData {
+                toc,
+                current_page_concept_url,
+            });
         }
     };
 
-    ft_sdk::println!("current user: {user_id}, data: {toc:?}, {current_url}");
     fix_status(user_id, &mut maybe_me.conn, &mut toc)?;
-    fix_is_current_page(current_url, &mut toc);
-
-    let current_page_concept_url = toc.iter().find(|e| e.is_current_page).and_then(|e| e.concept.clone());
-
-    ft_sdk::println!("current user: {user_id}, data: {toc:?}");
-
-    ft_sdk::processor::json(PageData { toc, current_page_concept_url })
+    ft_sdk::processor::json(PageData {
+        toc,
+        current_page_concept_url,
+    })
 }
 
-
-fn fix_is_current_page(
-    current_url: String,
-    toc: &mut [Entry],
-) {
+fn fix_is_current_page(current_url: String, toc: &mut [Entry]) {
     ft_sdk::println!("Fixing current page status for URL: {current_url}");
     for entry in toc {
-        ft_sdk::println!("Checking entry: {}, {current_url} {}", entry.url, entry.url == current_url);
+        ft_sdk::println!(
+            "Checking entry: {}, {current_url} {}",
+            entry.url,
+            entry.url == current_url
+        );
         entry.is_current_page = entry.url == current_url;
     }
 }

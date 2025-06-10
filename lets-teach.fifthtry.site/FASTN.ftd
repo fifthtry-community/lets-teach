@@ -20,33 +20,46 @@ system-is-confidential: false
 
 -- fastn.migration: 0001-initial-migration
 
-create table if not exists lets_teach_user_concept (
-    id integer primary key,
+CREATE TABLE IF NOT EXISTS lets_teach_user_concept (
+    id integer PRIMARY KEY,
 
-    user_id integer not null,
-    concept_url text not null,
+    user_id INTEGER NOT NULL,
+    concept_url TEXT NOT NULL,
 
-    status text not null check (status in ('new', 'seen', 'done')),
+    status TEXT NOT NULL check (status in ('new', 'seen', 'done')),
 
-    created_at timestamp default current_timestamp not null,
-    updated_at timestamp default current_timestamp not null,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
     FOREIGN KEY (user_id) REFERENCES fastn_user(id)
 );
-CREATE INDEX idx_lets_teach_user_concept_concept_url ON lets_teach_user_concept(concept_url);
-CREATE INDEX idx_lets_teach_user_concept_status ON lets_teach_user_concept(status);
+
+CREATE UNIQUE INDEX
+    idx__lets_teach_user_concept__user_id__concept_url
+ON
+    lets_teach_user_concept (user_id, concept_url);
+
+CREATE INDEX
+    idx__lets_teach_user_concept__concept_url
+ON
+    lets_teach_user_concept(concept_url);
+
+CREATE INDEX
+    idx__lets_teach_user_concept__status
+ON
+    lets_teach_user_concept(status);
 
 
-create table if not exists lets_teach_user_concept_event (
-    id integer primary key,
+CREATE TABLE IF NOT EXISTS lets_teach_user_concept_event (
+    id integer PRIMARY KEY,
 
-    user_id integer not null,
-    concept_url text not null,
+    user_id INTEGER NOT NULL,
+    concept_url TEXT NOT NULL,
 
-    event_type text not null,
-    event_data text not null,
+    event_type TEXT NOT NULL,
+    event_data TEXT NOT NULL,
 
-    created_at timestamp default current_timestamp not null,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 
     FOREIGN KEY (user_id) REFERENCES fastn_user(id)
 );

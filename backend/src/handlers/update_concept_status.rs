@@ -9,7 +9,7 @@ pub fn update_concept_status(
         Some(ud) => ud.id,
         None => {
             ft_sdk::println!("No user data found, this should never have happened");
-            return ft_sdk::form::reload()
+            return ft_sdk::form::reload();
         }
     };
 
@@ -30,14 +30,22 @@ struct ConceptStatus {
 impl ConceptStatus {
     fn check(&self) -> ft_sdk::Result<()> {
         if self.status != "new" && self.status != "seen" && self.status != "done" {
-            return Err(ft_sdk::single_error("status", "unknown status, only new, seen or done allowed").into());
+            return Err(ft_sdk::single_error(
+                "status",
+                "unknown status, only new, seen or done allowed",
+            )
+            .into());
         }
 
         Ok(())
     }
 
-
-    fn upsert(self, user_id: i64, conn: &mut ft_sdk::Connection, now: chrono::DateTime<chrono::Utc>) -> Result<(), ft_sdk::Error> {
+    fn upsert(
+        self,
+        user_id: i64,
+        conn: &mut ft_sdk::Connection,
+        now: chrono::DateTime<chrono::Utc>,
+    ) -> Result<(), ft_sdk::Error> {
         use backend::schema::lets_teach_user_concept;
         use diesel::prelude::*;
 
@@ -45,8 +53,17 @@ impl ConceptStatus {
             .values((
                 lets_teach_user_concept::user_id.eq(user_id),
                 lets_teach_user_concept::concept_url.eq(self.concept_url),
-                lets_teach_user_concept::status.eq(self.status),
+                lets_teach_user_concept::status.eq(&self.status),
                 lets_teach_user_concept::created_at.eq(now),
+                lets_teach_user_concept::updated_at.eq(now),
+            ))
+            .on_conflict((
+                lets_teach_user_concept::user_id,
+                lets_teach_user_concept::concept_url,
+            ))
+            .do_update()
+            .set((
+                lets_teach_user_concept::status.eq(&self.status),
                 lets_teach_user_concept::updated_at.eq(now),
             ))
             .execute(conn)?;

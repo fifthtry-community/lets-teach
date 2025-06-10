@@ -17,7 +17,7 @@ string url:
 optional string concept:
 ;; can be NULL, new, seen, done.
 optional string status:
-boolean is-current-page: true
+boolean is-current-page: false
 
 
 
@@ -32,13 +32,20 @@ spacing.fixed.px: 10
     width: hug-content
     style if { show-entry.thing.is-current-page }: underline
 
-    -- ph.fill: circle
+    /-- ph.fill: circle
     if: { show-entry.thing.status == "seen" }
     size: 14
 
-    -- ph.fill: check-circle
+    /-- ph.fill: check-circle
     if: { show-entry.thing.status == "done" }
     size: 14
+    color: green
+
+    -- ftd.text: S
+    if: { show-entry.thing.status == "seen" }
+
+    -- ftd.text: D
+    if: { show-entry.thing.status == "done" }
     color: green
 
 -- end: ftd.row
