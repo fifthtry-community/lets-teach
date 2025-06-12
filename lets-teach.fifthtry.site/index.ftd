@@ -16,7 +16,7 @@ optional string status:
 
 -- record page-data:
 entry list toc:
-boolean current-page-is-concept-page:
+optional string concept-url:
 
 -- component show-entry:
 caption lets-teach.entry thing:
@@ -91,8 +91,10 @@ align-content: left
     -- ds.column:
     align-content: left
 
-    -- ds.heading-small: self assessment form
-    if: { page.data.current-page-is-concept-page }
+    -- self-assessment-form:
+    if: { page.data.concept-url != NULL }
+    concept-url: $page.data.concept-url
+
 
     -- end: ds.column
 
@@ -107,3 +109,41 @@ align-content: left
 
 -- string current-url:
 $processor$: pr.current-url
+
+
+-- component self-assessment-form:
+string concept-url:
+
+-- ds.column:
+align-content: top-left
+
+-- ds.heading-small: self assessment form
+
+Use the following buttons to update the status of this concept page.
+
+-- ds.row:
+align-content: top-left
+
+-- ds.primary-button: Mark as Done
+$on-click$: $update-concept-status(concept_url=$self-assessment-form.concept-url, status=done)
+
+-- ds.secondary-button: Mark as Not Done
+$on-click$: $update-concept-status(concept_url=$self-assessment-form.concept-url, status=seen)
+
+-- end: ds.row
+
+-- end: ds.column
+
+-- end: self-assessment-form
+
+
+-- void update-concept-status(concept_url, status):Add commentMore actions
+string concept_url:
+string status:
+string action_url: $ftd.app-url(path=/backend/update-concept-status/, app=lets-teach)
+
+ftd.submit_form(
+    action_url,
+    ("concept-url", concept_url),
+    ("status", status)
+)

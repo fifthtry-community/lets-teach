@@ -20,8 +20,3 @@ package: lets-auth.fifthtry.site
 -- fastn.app: Lets Teach App
 mount-point: /teach/
 package: lets-teach.fifthtry.site
-
-
--- fastn.url-mappings:
-
-/teach/backend/* -> wasm+proxy://backend.wasm/*

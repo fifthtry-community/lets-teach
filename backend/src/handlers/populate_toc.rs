@@ -5,33 +5,28 @@ pub fn populate_toc(
     ft_sdk::Required(mut toc): ft_sdk::Required<"toc", Vec<Entry>>,
     ft_sdk::Required(current_url): ft_sdk::Required<"current-url">,
 ) -> ft_sdk::processor::Result {
-    let current_page_is_concept_page = toc
+    let concept_url = toc
         .iter()
-        .any(|e| e.url == current_url && e.concept.is_some());
+        .find(|e| e.url == current_url && e.concept.is_some())
+        .and_then(|e| e.concept.clone());
 
     let ud = match maybe_me.ud {
         Some(ud) => ud.id,
         None => {
             ft_sdk::println!("No user data found, returning toc without status");
-            return ft_sdk::processor::json(PageData {
-                toc,
-                current_page_is_concept_page,
-            });
+            return ft_sdk::processor::json(PageData { toc, concept_url });
         }
     };
 
     fix_status(ud, &mut maybe_me.conn, &mut toc)?;
-    ft_sdk::processor::json(PageData {
-        toc,
-        current_page_is_concept_page,
-    })
+    ft_sdk::processor::json(PageData { toc, concept_url })
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
 #[serde(rename_all = "kebab-case")]
 struct PageData {
     toc: Vec<Entry>,
-    current_page_is_concept_page: bool,
+    concept_url: Option<String>,
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
