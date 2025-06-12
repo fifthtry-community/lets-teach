@@ -9,18 +9,25 @@
 
 -- lets-teach.entry: Introduction
 url: /
+concept: /
 
 -- lets-teach.entry: Why Was `fastn` Created?
 url: /why-fastn/
+concept: /why-fastn/
 
 -- lets-teach.entry: FifthTry Offering
 url: /why-fifthtry/
+concept: /why-fifthtry/
 
 -- lets-teach.entry: Install `fastn` on Linux / Mac
 url: /install-fastn-linux-mac/
+concept: /install-fastn-linux-mac/
+status: seen
 
 -- lets-teach.entry: Install `fastn` on Windows
 url: /install-fastn-windows/
+concept: /install-fastn-windows/
+status: done
 
 -- end: toc-uninitialized
 

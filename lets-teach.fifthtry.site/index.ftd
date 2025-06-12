@@ -1,3 +1,7 @@
+-- import: fastn/processors as pr
+-- import: svg-icons.fifthtry.site/phosphor as ph
+
+
 -- ftd.text: hello teach yo
 
 
@@ -14,8 +18,23 @@ optional string status:
 -- component show-entry:
 caption lets-teach.entry thing:
 
--- ftd.text: $show-entry.thing.title
-link: $show-entry.thing.url
+-- ds.row:
+align-content: top-left
+
+    -- ftd.text: $show-entry.thing.title
+    link: $show-entry.thing.url
+    style if { show-entry.thing.url == current-url }: underline
+
+    -- ph.bold: circle
+    if: { show-entry.thing.status == "seen" }
+    size: 12
+
+    -- ph.bold: check-circle
+    if: { show-entry.thing.status == "done" }
+    size: 12
+    color: green
+
+-- end: ds.row
 
 -- end: show-entry
 
@@ -53,12 +72,25 @@ align-content: top-left
 -- ds.heading-large: $page.title
 
 -- ds.row:
+align-content: left
 
 -- lets-teach.show-toc: $page.toc
 
 -- ds.column:
 align-content: left
-content: $page.content
+
+    -- ds.column:
+    align-content: left
+    content: $page.content
+
+    -- end: ds.column
+
+    -- ds.column:
+    align-content: left
+
+    -- ds.heading-small: self assessment form
+
+    -- end: ds.column
 
 -- end: ds.column
 
@@ -67,3 +99,7 @@ content: $page.content
 -- end: ds.page
 
 -- end: page
+
+
+-- string current-url:
+$processor$: pr.current-url
