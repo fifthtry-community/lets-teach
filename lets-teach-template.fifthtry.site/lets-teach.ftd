@@ -10,10 +10,10 @@ export: *
 body body:
 children content:
 caption title:
-lt.entry list toc: $meta.toc
+lt.page-data data: $meta.page-data
 
 -- lt.page: $meta.title
-toc: $page.toc
+data: $page.data
 
 -- ds.heading-large: $page.title
 

@@ -3,17 +3,35 @@
 pub fn populate_toc(
     mut maybe_me: backend::MaybeMe,
     ft_sdk::Required(mut toc): ft_sdk::Required<"toc", Vec<Entry>>,
+    ft_sdk::Required(current_url): ft_sdk::Required<"current-url">,
 ) -> ft_sdk::processor::Result {
+    let current_page_is_concept_page = toc
+        .iter()
+        .any(|e| e.url == current_url && e.concept.is_some());
+
     let ud = match maybe_me.ud {
         Some(ud) => ud.id,
         None => {
             ft_sdk::println!("No user data found, returning toc without status");
-            return ft_sdk::processor::json(toc);
+            return ft_sdk::processor::json(PageData {
+                toc,
+                current_page_is_concept_page,
+            });
         }
     };
 
     fix_status(ud, &mut maybe_me.conn, &mut toc)?;
-    ft_sdk::processor::json(toc)
+    ft_sdk::processor::json(PageData {
+        toc,
+        current_page_is_concept_page,
+    })
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[serde(rename_all = "kebab-case")]
+struct PageData {
+    toc: Vec<Entry>,
+    current_page_is_concept_page: bool,
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]

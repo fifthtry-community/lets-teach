@@ -9,7 +9,6 @@
 
 -- lets-teach.entry: Introduction
 url: /
-concept: /
 
 -- lets-teach.entry: Why Was `fastn` Created?
 url: /why-fastn/
@@ -38,8 +37,12 @@ $processor$: pr.http
 url: $ftd.app-url(path = /backend/populate-toc/, app = lets-teach)
 
 
--- lets-teach.entry list toc:
+-- string current-url:
+$processor$: pr.current-url
+
+-- lets-teach.page-data page-data:
 $processor$: pr.http
 method: post
 url: /teach/backend/populate-toc/
 toc: $toc-uninitialized
+current-url: $current-url
