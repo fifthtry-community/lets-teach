@@ -51,9 +51,18 @@ impl InputData {
         diesel::insert_into(lets_teach_user_concept::table)
             .values((
                 lets_teach_user_concept::user_id.eq(user_id),
-                lets_teach_user_concept::concept_url.eq(self.concept_url),
-                lets_teach_user_concept::status.eq(self.status),
+                lets_teach_user_concept::concept_url.eq(&self.concept_url),
+                lets_teach_user_concept::status.eq(&self.status),
                 lets_teach_user_concept::created_at.eq(now),
+                lets_teach_user_concept::updated_at.eq(now),
+            ))
+            .on_conflict((
+                lets_teach_user_concept::user_id,
+                lets_teach_user_concept::concept_url,
+            ))
+            .do_update()
+            .set((
+                lets_teach_user_concept::status.eq(&self.status),
                 lets_teach_user_concept::updated_at.eq(now),
             ))
             .execute(conn)?;
